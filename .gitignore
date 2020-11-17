@@ -115,3 +115,4 @@ work_dirs/
 
 # Pytorch
 *.pth
+*.tar
