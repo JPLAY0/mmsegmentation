@@ -3,6 +3,7 @@ _base_ = [
     '../_base_/default_runtime.py', '../_base_/schedules/schedule_160k.py'
 ]
 # model settings
+num_classes = 19
 norm_cfg = dict(type='BN', requires_grad=True)
 model = dict(
     type='EncoderDecoder',
@@ -17,7 +18,7 @@ model = dict(
         channels=128,
         input_transform='multiple_select',
         dropout_ratio=-1,
-        num_classes=19,
+        num_classes=num_classes,
         norm_cfg=norm_cfg,
         align_corners=False,
         loss_decode=dict(
@@ -27,41 +28,41 @@ model = dict(
             type='FCNHead',
             in_channels=512,
             in_index=3,
-            channels=512,
-            num_convs=0,
+            channels=128,
+            num_convs=2,
             concat_input=False,
             dropout_ratio=-1,
-            num_classes=19,
+            num_classes=num_classes,
             norm_cfg=norm_cfg,
             align_corners=False,
             loss_decode=dict(
-                type='CrossEntropyLoss', use_sigmoid=False, loss_weight=0.3)),
+                type='CrossEntropyLoss', use_sigmoid=False, loss_weight=0.4)),
         dict(
             type='FCNHead',
             in_channels=256,
             in_index=2,
-            channels=256,
-            num_convs=0,
+            channels=128,
+            num_convs=2,
             concat_input=False,
             dropout_ratio=-1,
-            num_classes=19,
+            num_classes=num_classes,
             norm_cfg=norm_cfg,
             align_corners=False,
             loss_decode=dict(
-                type='CrossEntropyLoss', use_sigmoid=False, loss_weight=0.3)),
+                type='CrossEntropyLoss', use_sigmoid=False, loss_weight=0.4)),
         dict(
             type='FCNHead',
             in_channels=128,
             in_index=1,
             channels=128,
-            num_convs=0,
+            num_convs=2,
             concat_input=False,
             dropout_ratio=-1,
-            num_classes=19,
+            num_classes=num_classes,
             norm_cfg=norm_cfg,
             align_corners=False,
             loss_decode=dict(
-                type='CrossEntropyLoss', use_sigmoid=False, loss_weight=0.3)),
+                type='CrossEntropyLoss', use_sigmoid=False, loss_weight=0.4)),
 
     ]
 )

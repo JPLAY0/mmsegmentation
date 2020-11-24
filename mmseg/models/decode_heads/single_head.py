@@ -37,7 +37,7 @@ class SINGLEHead(BaseDecodeHead):
         for i in range(self.num_convs):
             self.convs.append(ConvModule(self.in_channels[i], self.channels, 1, norm_cfg=self.norm_cfg, inplace=False))
             self.convs.append(ConvModule(self.channels, self.channels, 3, padding=1, norm_cfg=self.norm_cfg))
-        self.up = nn.Upsample(mode='bilinear')
+        self.up = nn.Upsample(mode='bilinear', align_corners=False)
 
     def forward(self, inputs):
         """Forward function."""
