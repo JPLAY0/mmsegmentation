@@ -1,6 +1,11 @@
+import os
 import time
 
+import cv2 as cv
+import numpy as np
 import torch
+from PIL import Image
+from tqdm import tqdm
 
 from mmseg.models.backbones import BaseNet
 
@@ -37,7 +42,7 @@ def benchmark(net, img_size):
     return test_step / (end - start)
 
 
-if __name__ == '__main__':
+def model_test():
     name = 'gluon_resnet18_v1b'
     model = BaseNet('gluon_resnet18_v1b')
     img = torch.randn((1, 3, 1024, 2048))
@@ -47,3 +52,44 @@ if __name__ == '__main__':
     for img_size in img_size_list:
         fps = benchmark(model, img_size)
         print('model: ', name, 'img_size: ', img_size, 'fps:', round(fps, 1))
+
+
+def find_shape():
+    img_path = '/home/jpl/data/pycode/mmsegmentation/data/Vistas/training/images'
+    h, w = 0, 0
+    for path in tqdm(os.listdir(img_path)):
+        whole_path = os.path.join(img_path, path)
+        img: Image.Image = Image.open(whole_path)
+        h += img.size[0]
+        w += img.size[1]
+    print(h / 18000)  # 3418.662888888889
+    print(w / 18000)  # 2481.146277777778
+
+
+def find_sto():
+    img_path = '/home/jpl/data/pycode/mmsegmentation/data/Vistas/training/images'
+    num_pixels = 3418.662888888889 * 2481.146277777778 * 18000
+    # color = np.zeros(3)
+    # for path in tqdm(os.listdir(img_path)):
+    #     whole_path = os.path.join(img_path, path)
+    #     img = cv.imread(whole_path)
+    #     for i in range(3):
+    #         color[2 - i] += np.sum(img[:, :, i])
+    # mean = color / num_pixels
+    mean = np.array([80.5423, 91.3162, 81.4312])
+
+    print(mean)
+
+    color = np.zeros(3)
+    for path in tqdm(os.listdir(img_path)):
+        whole_path = os.path.join(img_path, path)
+        img = cv.imread(whole_path)
+        for i in range(3):
+            color[2 - i] += np.sum((img[:, :, i] - mean[i]) ** 2)
+    var = color / num_pixels
+
+    print(np.sqrt(var))
+
+
+if __name__ == '__main__':
+    find_sto()
