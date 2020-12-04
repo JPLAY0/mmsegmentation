@@ -91,5 +91,17 @@ def find_sto():
     print(np.sqrt(var))
 
 
+def img_test():
+    img_path = '/home/jpl/data/pycode/mmsegmentation/data/Vistas/validation/labels'
+    lbl_min, lbl_max = 1000, -1
+    for path in tqdm(os.listdir(img_path)):
+        whole_path = os.path.join(img_path, path)
+        img = np.asarray(Image.open(whole_path))
+        lbl_min = min(lbl_min, img.min())
+        lbl_max = max(lbl_max, img.max())
+    print(lbl_max)
+    print(lbl_min)
+
+
 if __name__ == '__main__':
-    find_sto()
+    img_test()
