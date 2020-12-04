@@ -13,4 +13,5 @@ class CamVidDataset(CustomDataset):
         super(CamVidDataset, self).__init__(
             img_suffix='.png',
             seg_map_suffix='.png',
+            ignore_index=11,
             **kwargs)
