@@ -2,7 +2,7 @@
 dataset_type = 'MapillaryVistasDataset'
 data_root = 'data/Vistas'
 img_norm_cfg = dict(
-    mean=[80.5423, 91.3162, 81.4312], std=[58.395, 57.12, 57.375], to_rgb=True)
+    mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 crop_size = (512, 1024)
 train_pipeline = [
     dict(type='LoadImageFromFile'),

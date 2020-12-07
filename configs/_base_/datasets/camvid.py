@@ -2,7 +2,7 @@
 dataset_type = 'CamVidDataset'
 data_root = 'data/CamVid'
 img_norm_cfg = dict(
-    mean=[104.00699, 116.66877, 122.67892], std=[58.395, 57.12, 57.375], to_rgb=True)
+    mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 crop_size = (960, 720)
 train_pipeline = [
     dict(type='LoadImageFromFile'),
