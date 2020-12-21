@@ -1,4 +1,5 @@
 from .ann_head import ANNHead
+from .apc_head import APCHead
 from .aspp_head import ASPPHead
 from .cc_head import CCHead
 from .da_head import DAHead
@@ -24,5 +25,5 @@ __all__ = [
     'FCNHead', 'PSPHead', 'ASPPHead', 'PSAHead', 'NLHead', 'GCHead', 'CCHead',
     'UPerHead', 'DepthwiseSeparableASPPHead', 'ANNHead', 'DAHead', 'OCRHead',
     'EncHead', 'DepthwiseSeparableFCNHead', 'FPNHead', 'EMAHead', 'DNLHead',
-    'PointHead', 'FASTHead', 'SINGLEHead', 'SGHead'
+    'PointHead', 'APCHead', 'FASTHead', 'SINGLEHead', 'SGHead'
 ]
