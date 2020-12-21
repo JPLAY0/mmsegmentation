@@ -2,11 +2,14 @@ import os
 import time
 
 import cv2 as cv
+import mmcv
 import numpy as np
 import torch
 from PIL import Image
+from mmcv.runner.checkpoint import save_checkpoint
 from tqdm import tqdm
 
+from mmseg.models import build_segmentor
 from mmseg.models.backbones import BaseNet
 
 warm_step = 20
@@ -101,6 +104,12 @@ def img_test():
         lbl_max = max(lbl_max, img.max())
     print(lbl_max)
     print(lbl_min)
+
+
+def save_backbone_checkpoint():
+    cfg = mmcv.Config.fromfile('work_dirs/sg_resnet18_vitas/sg_resnet18_cityscapes.py')
+    model: torch.nn.Module = build_segmentor(cfg.model).backbone
+    save_checkpoint(model, 'checkpoints/resnet18_vistas.pth')
 
 
 if __name__ == '__main__':
