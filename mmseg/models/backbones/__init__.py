@@ -13,5 +13,5 @@ from .basenet import BaseNet
 
 __all__ = [
     'ResNet', 'ResNetV1c', 'ResNetV1d', 'ResNeXt', 'HRNet', 'FastSCNN',
-    'ResNeSt', 'MobileNetV2', 'UNet', 'CGNet', 'GhostNet', 'ResNet18', 'ECA_ResNet18', 'BaseNet'
+    'ResNeSt', 'MobileNetV2', 'UNet', 'CGNet'
 ]
