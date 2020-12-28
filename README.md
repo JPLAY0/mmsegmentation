@@ -60,6 +60,7 @@ Supported backbones:
 - [x] [HRNet](configs/hrnet/README.md)
 - [x] [ResNeSt](configs/resnest/README.md)
 - [x] [MobileNetV2](configs/mobilenet_v2/README.md)
+- [x] [MobileNetV3](configs/mobilenet_v3/README.md)
 
 Supported methods:
 
@@ -75,6 +76,7 @@ Supported methods:
 - [x] [DANet](configs/danet)
 - [x] [APCNet](configs/apcnet)
 - [x] [GCNet](configs/gcnet)
+- [x] [DMNet](configs/dmnet)
 - [x] [ANN](configs/ann)
 - [x] [OCRNet](configs/ocrnet)
 - [x] [Fast-SCNN](configs/fastscnn)

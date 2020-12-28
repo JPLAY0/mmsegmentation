@@ -79,6 +79,10 @@ Please refer to [HRNet](https://github.com/open-mmlab/mmsegmentation/blob/master
 
 Please refer to [GCNet](https://github.com/open-mmlab/mmsegmentation/blob/master/configs/gcnet) for details.
 
+### DMNet
+
+Please refer to [DMNet](https://github.com/open-mmlab/mmsegmentation/blob/master/configs/dmnet) for details.
+
 ### ANN
 
 Please refer to [ANN](https://github.com/open-mmlab/mmsegmentation/blob/master/configs/ann) for details.
@@ -106,6 +110,10 @@ Please refer to [PointRend](https://github.com/open-mmlab/mmsegmentation/blob/ma
 ### MobileNetV2
 
 Please refer to [MobileNetV2](https://github.com/open-mmlab/mmsegmentation/blob/master/configs/mobilenet_v2) for details.
+
+### MobileNetV3
+
+Please refer to [MobileNetV3](https://github.com/open-mmlab/mmsegmentation/blob/master/configs/mobilenet_v3) for details.
 
 ### EMANet
 
