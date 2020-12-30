@@ -8,10 +8,10 @@ from ..builder import HEADS
 
 
 @HEADS.register_module()
-class SINGLEHead(BaseDecodeHead):
+class SwiftHead(BaseDecodeHead):
 
     def __init__(self, pool_scales=(1, 2, 3, 6), **kwargs):
-        super(SINGLEHead, self).__init__(**kwargs)
+        super(SwiftHead, self).__init__(**kwargs)
 
         self.pool_scales = pool_scales
 
