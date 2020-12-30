@@ -35,8 +35,8 @@ class SINGLEHead(BaseDecodeHead):
         self.convs = nn.ModuleList()
         self.num_convs = len(self.in_channels) - 1
         for i in range(self.num_convs):
-            self.convs.append(ConvModule(self.in_channels[i], self.channels, 1, norm_cfg=self.norm_cfg, inplace=False))
-            self.convs.append(ConvModule(self.channels, self.channels, 3, padding=1, norm_cfg=self.norm_cfg))
+            self.convs.append(ConvModule(self.in_channels[i], self.channels, 1, norm_cfg=self.norm_cfg))
+            self.convs.append(ConvModule(self.channels * 2, self.channels, 3, padding=1, norm_cfg=self.norm_cfg))
         self.up = nn.Upsample(mode='bilinear', align_corners=False)
 
     def forward(self, inputs):
@@ -51,7 +51,7 @@ class SINGLEHead(BaseDecodeHead):
         for i in reversed(range(self.num_convs)):
             x[i] = self.convs[i * 2](x[i])
             self.up.size = x[i].shape[2:]
-            x[i] += self.up(x[i + 1])
+            x[i] = torch.cat([self.up(x[i + 1]), x[i]], dim=1)
             x[i] = self.convs[i * 2 + 1](x[i])
         output = self.cls_seg(x[0])
 
