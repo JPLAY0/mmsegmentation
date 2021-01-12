@@ -7,10 +7,13 @@ import numpy as np
 import torch
 from PIL import Image
 from mmcv.runner.checkpoint import save_checkpoint
+from torch import nn
 from tqdm import tqdm
 
 from mmseg.models import build_segmentor
 from mmseg.models.backbones import BaseNet
+from mmseg.models.backbones.resnet18 import ResNet18
+from mmseg.models.decode_heads.swift_head import SwiftHead
 
 warm_step = 20
 test_step = 20
@@ -110,6 +113,33 @@ def save_backbone_checkpoint():
     cfg = mmcv.Config.fromfile('work_dirs/sg_resnet18_vitas/sg_resnet18_cityscapes.py')
     model: torch.nn.Module = build_segmentor(cfg.model).backbone
     save_checkpoint(model, 'checkpoints/resnet18_vistas.pth')
+
+
+class FPFModel(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.backbone = ResNet18()
+        self.head = SwiftHead(in_channels=[64, 128, 256, 512], channels=96, num_classes=19, in_index=(0, 1, 2, 3),
+                              input_transform='multiple_select', norm_cfg=dict(type='BN', requires_grad=True))
+
+    def forward(self, x):
+        x = self.backbone(x)
+        return self.head(x)
+
+
+def ultra_speed_test():
+    model = FPFModel().cuda()
+    model.eval()
+    cases = 10000
+    with torch.no_grad():
+        tot = 0
+        for _ in range(cases):
+            img = torch.randn((1, 3, 1024, 2048), device='cuda')
+            start = time.perf_counter()
+            model(img)
+            torch.cuda.synchronize()
+            tot += time.perf_counter() - start
+        print(cases / tot)
 
 
 if __name__ == '__main__':
