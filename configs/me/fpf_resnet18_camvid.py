@@ -1,6 +1,6 @@
 _base_ = [
     '../_base_/datasets/camvid.py',
-    '../_base_/default_runtime.py', '../_base_/schedules/schedule_160k.py'
+    '../_base_/default_runtime.py', '../_base_/schedules/schedule_80k.py'
 ]
 # model settings
 num_classes = 12
@@ -18,7 +18,7 @@ model = dict(
         type='FPFHead',
         in_channels=[64, 128, 256, 512],
         in_index=(0, 1, 2, 3),
-        channels=128,
+        channels=96,
         input_transform='multiple_select',
         dropout_ratio=-1,
         num_classes=num_classes,
