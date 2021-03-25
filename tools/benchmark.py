@@ -13,6 +13,7 @@ from mmseg.models import build_segmentor
 def parse_args():
     parser = argparse.ArgumentParser(description='MMSeg benchmark a model')
     parser.add_argument('config', help='test config file path')
+    parser.add_argument('checkpoint', help='checkpoint file')
     parser.add_argument(
         '--log-interval', type=int, default=50, help='interval of logging')
     args = parser.parse_args()
@@ -39,7 +40,9 @@ def main():
         shuffle=False)
 
     # build the model and load checkpoint
-    model = build_segmentor(cfg.model, train_cfg=None, test_cfg=cfg.test_cfg)
+    cfg.model.train_cfg = None
+    model = build_segmentor(cfg.model, test_cfg=cfg.get('test_cfg'))
+    load_checkpoint(model, args.checkpoint, map_location='cpu')
 
     model = MMDataParallel(model, device_ids=[0])
 

@@ -27,7 +27,8 @@ def init_segmentor(config, checkpoint=None, device='cuda:0'):
         raise TypeError('config must be a filename or Config object, '
                         'but got {}'.format(type(config)))
     config.model.pretrained = None
-    model = build_segmentor(config.model, test_cfg=config.test_cfg)
+    config.model.train_cfg = None
+    model = build_segmentor(config.model, test_cfg=config.get('test_cfg'))
     if checkpoint is not None:
         checkpoint = load_checkpoint(model, checkpoint, map_location='cpu')
         model.CLASSES = checkpoint['meta']['CLASSES']
@@ -97,7 +98,12 @@ def inference_segmentor(model, img):
     return result
 
 
-def show_result_pyplot(model, img, result, palette=None, fig_size=(15, 10)):
+def show_result_pyplot(model,
+                       img,
+                       result,
+                       palette=None,
+                       fig_size=(15, 10),
+                       opacity=0.5):
     """Visualize the segmentation results on the image.
 
     Args:
@@ -108,10 +114,14 @@ def show_result_pyplot(model, img, result, palette=None, fig_size=(15, 10)):
             map. If None is given, random palette will be generated.
             Default: None
         fig_size (tuple): Figure size of the pyplot figure.
+        opacity(float): Opacity of painted segmentation map.
+            Default 0.5.
+            Must be in (0, 1] range.
     """
     if hasattr(model, 'module'):
         model = model.module
-    img = model.show_result(img, result, palette=palette, show=False)
+    img = model.show_result(
+        img, result, palette=palette, show=False, opacity=opacity)
     plt.figure(figsize=fig_size)
     plt.imshow(mmcv.bgr2rgb(img))
     plt.show()

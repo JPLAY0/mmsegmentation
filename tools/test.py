@@ -55,6 +55,11 @@ def parse_args():
         choices=['none', 'pytorch', 'slurm', 'mpi'],
         default='none',
         help='job launcher')
+    parser.add_argument(
+        '--opacity',
+        type=float,
+        default=0.5,
+        help='Opacity of painted segmentation map. In (0, 1] range.')
     parser.add_argument('--local_rank', type=int, default=0)
     args = parser.parse_args()
     if 'LOCAL_RANK' not in os.environ:
@@ -110,7 +115,8 @@ def main():
         shuffle=False)
 
     # build the model and load checkpoint
-    model = build_segmentor(cfg.model, train_cfg=None, test_cfg=cfg.test_cfg)
+    cfg.model.train_cfg = None
+    model = build_segmentor(cfg.model, test_cfg=cfg.get('test_cfg'))
     checkpoint = load_checkpoint(model, args.checkpoint, map_location='cpu')
     model.CLASSES = checkpoint['meta']['CLASSES']
     model.PALETTE = checkpoint['meta']['PALETTE']
@@ -122,7 +128,7 @@ def main():
     if not distributed:
         model = MMDataParallel(model, device_ids=[0])
         outputs = single_gpu_test(model, data_loader, args.show, args.show_dir,
-                                  efficient_test)
+                                  efficient_test, args.opacity)
     else:
         model = MMDistributedDataParallel(
             model.cuda(),

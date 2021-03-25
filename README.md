@@ -13,12 +13,14 @@
 
 Documentation: https://mmsegmentation.readthedocs.io/
 
+English | [简体中文](README_zh-CN.md)
+
 ## Introduction
 
 MMSegmentation is an open source semantic segmentation toolbox based on PyTorch.
 It is a part of the OpenMMLab project.
 
-The master branch works with **PyTorch 1.3 to 1.6**.
+The master branch works with **PyTorch 1.3+**.
 
 ![demo image](resources/seg_demo.gif)
 
@@ -46,7 +48,7 @@ This project is released under the [Apache 2.0 license](LICENSE).
 
 ## Changelog
 
-v0.10.0 was released in 01/01/2021.
+v0.11.0 was released in 02/02/2021.
 Please refer to [changelog.md](docs/changelog.md) for details and release history.
 
 ## Benchmark and model zoo
@@ -105,7 +107,7 @@ If you find this project useful in your research, please consider cite:
 
 ```latex
 @misc{mmseg2020,
-    title={MMSegmentation, an Open Source Semantic Segmentation Toolbox},
+    title={{MMSegmentation}: OpenMMLab Semantic Segmentation Toolbox and Benchmark},
     author={MMSegmentation Contributors},
     howpublished = {\url{https://github.com/open-mmlab/mmsegmentation}},
     year={2020}
