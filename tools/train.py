@@ -128,9 +128,7 @@ def main():
     meta['exp_name'] = osp.basename(args.config)
 
     model = build_segmentor(
-        cfg.model,
-        train_cfg=cfg.get('train_cfg'),
-        test_cfg=cfg.get('test_cfg'))
+        cfg.model, train_cfg=cfg.train_cfg, test_cfg=cfg.test_cfg)
 
     # logger.info(model)
 

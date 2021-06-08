@@ -76,9 +76,12 @@ def _get_segmentor_cfg(fname):
     These are deep copied to allow for safe modification of parameters without
     influencing other tests.
     """
+    import mmcv
     config = _get_config_module(fname)
     model = copy.deepcopy(config.model)
-    return model
+    train_cfg = mmcv.Config(copy.deepcopy(config.train_cfg))
+    test_cfg = mmcv.Config(copy.deepcopy(config.test_cfg))
+    return model, train_cfg, test_cfg
 
 
 def test_pspnet_forward():
@@ -209,12 +212,12 @@ def _convert_batchnorm(module):
        _check_input_dim)
 @patch('torch.distributed.get_world_size', get_world_size)
 def _test_encoder_decoder_forward(cfg_file):
-    model = _get_segmentor_cfg(cfg_file)
+    model, train_cfg, test_cfg = _get_segmentor_cfg(cfg_file)
     model['pretrained'] = None
-    model['test_cfg']['mode'] = 'whole'
+    test_cfg['mode'] = 'whole'
 
     from mmseg.models import build_segmentor
-    segmentor = build_segmentor(model)
+    segmentor = build_segmentor(model, train_cfg=train_cfg, test_cfg=test_cfg)
 
     if isinstance(segmentor.decode_head, nn.ModuleList):
         num_classes = segmentor.decode_head[-1].num_classes

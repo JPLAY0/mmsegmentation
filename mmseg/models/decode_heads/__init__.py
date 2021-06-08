@@ -21,6 +21,7 @@ from .sep_fcn_head import DepthwiseSeparableFCNHead
 from .uper_head import UPerHead
 from .swift_head import SwiftHead
 from .fpf_head import FPFHead
+from .lppm_head import LPPMHead
 
 __all__ = [
     'FCNHead', 'PSPHead', 'ASPPHead', 'PSAHead', 'NLHead', 'GCHead', 'CCHead',
