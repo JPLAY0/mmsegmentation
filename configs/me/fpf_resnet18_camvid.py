@@ -1,13 +1,14 @@
 _base_ = [
     '../_base_/datasets/camvid.py',
-    '../_base_/default_runtime.py', '../_base_/schedules/schedule_80k.py'
+    '../_base_/default_runtime.py', '../_base_/schedules/schedule_20k.py'
 ]
 # model settings
-num_classes = 12
+num_classes = 11
 channels = 128
 num_convs = 2
 loss_weight = 0.4
 norm_cfg = dict(type='BN', requires_grad=True)
+optimizer = dict(type='SGD', lr=0.001, momentum=0.9, weight_decay=0.0005)
 model = dict(
     type='EncoderDecoder',
     pretrained='checkpoints/resnet18-5c106cde.pth',
@@ -71,3 +72,5 @@ model = dict(
 # model training and testing settings
 train_cfg = dict()
 test_cfg = dict(mode='whole')
+
+load_from = 'demo/pretrained_ct.pth'
