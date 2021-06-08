@@ -142,5 +142,20 @@ def ultra_speed_test():
         print(cases / tot)
 
 
+def weight_extract():
+    weight_path = 'work_dirs/fpf_resnet18_cityscapes_dp321/latest.pth'
+    weight: dict = torch.load(weight_path)
+    state: dict = weight['state_dict']
+    del state['decode_head.conv_seg.weight']
+    del state['decode_head.conv_seg.bias']
+    del state['auxiliary_head.0.conv_seg.weight']
+    del state['auxiliary_head.0.conv_seg.bias']
+    del state['auxiliary_head.1.conv_seg.weight']
+    del state['auxiliary_head.1.conv_seg.bias']
+    del state['auxiliary_head.2.conv_seg.weight']
+    del state['auxiliary_head.2.conv_seg.bias']
+    torch.save(weight,'demo/pretrained_ct.pth')
+
+
 if __name__ == '__main__':
     img_test()
