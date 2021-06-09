@@ -46,6 +46,7 @@ class LPPM(nn.Module):
     def forward(self, x):
         """Forward function."""
         self.up.size = x.size()[2:]
+        copy = x.clone()
         for pool in self.pools:
-            x = x + self.up(pool(x))
+            x += self.up(pool(copy))
         return self.conv(x)
