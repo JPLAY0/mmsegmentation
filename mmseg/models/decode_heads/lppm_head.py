@@ -37,16 +37,20 @@ class LPPM(nn.Module):
         super(LPPM, self).__init__()
 
         self.pools = []
-        self.conv = ConvModule(in_channels[-1], channels, 1, conv_cfg=conv_cfg, norm_cfg=norm_cfg,
-                               act_cfg=act_cfg)
+        self.convs = nn.ModuleList()
+        self.convs.append(ConvModule(in_channels[-1], channels, 1, conv_cfg=conv_cfg, norm_cfg=norm_cfg,
+                                     act_cfg=act_cfg))
         for pool_scale in pool_scales:
             self.pools.append(nn.AdaptiveAvgPool2d(pool_scale))
+            self.convs.append(ConvModule(in_channels[-1], channels, 1, conv_cfg=conv_cfg, norm_cfg=norm_cfg,
+                                         act_cfg=act_cfg))
         self.up = nn.Upsample(mode='bilinear', align_corners=align_corners)
 
     def forward(self, x):
         """Forward function."""
         self.up.size = x.size()[2:]
         copy = x.clone()
-        for pool in self.pools:
-            x += self.up(pool(copy))
-        return self.conv(x)
+        x = self.convs[-1](x)
+        for i, pool in enumerate(self.pools):
+            x = x + self.up(self.convs[i](pool(copy)))
+        return x
