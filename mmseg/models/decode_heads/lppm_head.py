@@ -36,13 +36,13 @@ class LPPM(nn.Module):
                  act_cfg, align_corners):
         super(LPPM, self).__init__()
 
-        self.pools = []
+        self.pools = nn.ModuleList()
         self.convs = nn.ModuleList()
-        self.convs.append(ConvModule(in_channels[-1], channels, 1, conv_cfg=conv_cfg, norm_cfg=norm_cfg,
+        self.convs.append(ConvModule(in_channels[-1], channels, 3, padding=1, conv_cfg=conv_cfg, norm_cfg=norm_cfg,
                                      act_cfg=act_cfg))
         for pool_scale in pool_scales:
             self.pools.append(nn.AdaptiveAvgPool2d(pool_scale))
-            self.convs.append(ConvModule(in_channels[-1], channels, 1, conv_cfg=conv_cfg, norm_cfg=norm_cfg,
+            self.convs.append(ConvModule(in_channels[-1], channels, 3, padding=1, conv_cfg=conv_cfg, norm_cfg=norm_cfg,
                                          act_cfg=act_cfg))
         self.up = nn.Upsample(mode='bilinear', align_corners=align_corners)
 
